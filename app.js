@@ -17,6 +17,7 @@ const io = socket(server, {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
 
 io.on("connection", function (socket) {
     socket.on("send-location", function (data) {
@@ -27,9 +28,14 @@ io.on("connection", function (socket) {
     });
 })
 
+// Device page: shares location only
 app.get("/", function (req, res) {
-    
     res.render("index");
+})
+
+// Admin page: view all locations
+app.get("/admin", function (req, res) {
+    res.render("admin");
 })
 
 
